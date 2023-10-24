@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import sqlite3
 from tkinter import ttk
 from tkinter import messagebox
-
+from pantallaPrincipalJuego import juegopreguntas
 
 base_datos = sqlite3.connect('jugadores.bd')
 cursor = base_datos.cursor()
@@ -16,8 +16,11 @@ def comenzar_juego():
     try:
         cursor.execute('INSERT INTO jugadores (nombre, redSocial, telefono) VALUES (?,?,?)',
                    (nombre, red_social, telefono))
-    except:
-        messagebox.showinfo('Error','Tienes que agregar un Nombre.')
+        juegopreguntas(nombre)
+    except Exception as e:
+        messagebox.showinfo('Error', f'Error al agregar jugador: {str(e)}')
+
+    
 
 ventana_menu_juego = Tk()
 ventana_menu_juego.title('Preguntados ISAUI')
@@ -61,7 +64,7 @@ telefono_jugador_entry.grid(row=7, column=0, columnspan=2)
 text_label = Label(ventana_menu_juego, text='Estas Listo?')
 text_label.grid(row=8, column=0, padx=5, pady=5, columnspan=2)
 
-boton_comienzo_juego = Button(ventana_menu_juego, text='Comenzar Juego', command=comenzar_juego)
+boton_comienzo_juego = Button(ventana_menu_juego, text='Comenzar Juego', command=lambda:comenzar_juego())
 boton_comienzo_juego.grid(row=9, column=0, padx=5, pady=5, columnspan=2)
 
 jugadores_label = Label(ventana_menu_juego, text='Jugadores')
@@ -73,7 +76,7 @@ cursor.execute('''
 ''')
 
 jugadores = cursor.fetchall()
-
+print(jugadores)
 jugadores_treeview = ttk.Treeview(ventana_menu_juego, columns=("Nombre", "Puntaje"))
 jugadores_treeview.column("#0", width=0, stretch=NO)
 jugadores_treeview.heading("#1", text='Nombre',anchor=CENTER) 
