@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 import time
-from pantallaGraciasporjugar import graciasporjugar
+from pantallaFinJuego import findeljuego
 
 conn = sqlite3.connect('jugadores.bd')
 cursor = conn.cursor()
@@ -17,12 +17,12 @@ pregunta_actual = None
 
 tiempo_total = 0
 
-def juegopreguntas(nombre):
-    global tiempo_total  # Asegúrate de usar la variable global tiempo_total
-
+def juegopreguntas(nombre, ventana_menu_juego):
+    global tiempo_total 
+    ventana_menu_juego.destroy()
     def cargar_pregunta():
         global pregunta_actual, contador_preguntas
-
+        
         if contador_preguntas < 15:
             # Filtra las preguntas que no se han utilizado
             preguntas_no_utilizadas = [pregunta for pregunta in preguntas if pregunta[0] not in preguntas_utilizadas]
@@ -46,14 +46,11 @@ def juegopreguntas(nombre):
         else:
             messagebox.showinfo("Fin del juego", "Has completado 15 preguntas.")
             detener_cronometro()
-            graciasporjugar(nombre, tiempo_transcurrido, contador_correctas)
-            # Aquí puedes agregar la lógica para finalizar el juego de acuerdo a tus necesidades.
-
-    # Obtener todas las preguntas al inicio
+            findeljuego(nombre, tiempo_transcurrido, contador_correctas)
+            
     cursor.execute("SELECT * FROM preguntas")
     preguntas = cursor.fetchall()
 
-    # Función para verificar la respuesta seleccionada
     def verificar_respuesta(respuesta_elegida):
         global contador_correctas, contador_incorrectas, pregunta_actual
 
@@ -86,7 +83,6 @@ def juegopreguntas(nombre):
         global cronometro_id
         cronometro_id = ventana.after(1000, actualizar_cronometro)  # Actualiza el cronómetro cada segundo (1000 ms)
 
-    # Función para reiniciar el juego
     def reiniciar_juego():
         global contador_correctas, contador_incorrectas, tiempo_total
         contador_correctas = 0
@@ -122,7 +118,7 @@ def juegopreguntas(nombre):
     reiniciar_button = tk.Button(ventana, text="Reiniciar Juego", command=reiniciar_juego)
     reiniciar_button.grid(row=8, column=0, columnspan=2)
 
-    iniciar_cronometro()  # Mover esta línea después de crear la ventana
+    iniciar_cronometro()  
     cargar_pregunta()
 
     ventana.mainloop()
