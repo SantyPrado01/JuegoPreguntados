@@ -46,6 +46,7 @@ def juegopreguntas(nombre, ventana_menu_juego):
         else:
             messagebox.showinfo("Fin del juego", "Has completado 15 preguntas.")
             detener_cronometro()
+            ventana.destroy()
             findeljuego(nombre, tiempo_transcurrido, contador_correctas)
             
     cursor.execute("SELECT * FROM preguntas")

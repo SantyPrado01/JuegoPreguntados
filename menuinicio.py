@@ -6,6 +6,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from pantallaJuego import juegopreguntas
 
+
 def comenzar_juego():
     nombre = nombre_jugador_entry.get()
     if nombre:
@@ -58,7 +59,7 @@ cursor.execute('''
 ''')
 
 jugadores = cursor.fetchall()
-print(jugadores)
+
 jugadores_treeview = ttk.Treeview(ventana_menu_juego, columns=("Nombre", "Puntaje","Tiempo"))
 jugadores_treeview.column("#0", width=0, stretch=NO)
 jugadores_treeview.heading("#1", text='Nombre',anchor=CENTER) 

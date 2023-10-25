@@ -2,7 +2,6 @@ from tkinter import *
 import sqlite3
 from funciones import ejecutar_menu
 
-
 def findeljuego(nombre, tiempo, preguntas):
 
     base_datos = sqlite3.connect('jugadores.bd')
@@ -10,15 +9,17 @@ def findeljuego(nombre, tiempo, preguntas):
 
     def gracias_jugar():
 
+        ventana_gracias_jugar.destroy()
+
         redSocial = red_social_entry.get()
         numero = numero_telefono_entry.get()
         puntaje = preguntas * 100
         cursor.execute('INSERT INTO jugadores (nombre, redSocial, telefono, puntaje, tiempo) VALUES (?,?,?,?,?)',
                         (nombre, redSocial, numero, puntaje, tiempo))
-        
-        ventana_gracias_jugar.destroy()
+        base_datos.commit()
+
         ejecutar_menu()
-  
+        
     ventana_gracias_jugar = Tk()
     ventana_gracias_jugar.title('Gracias por jugar')
 

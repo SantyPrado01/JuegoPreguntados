@@ -6,5 +6,5 @@ def ejecutar_menu_preguntas():
     subprocess.Popen(['python3', script])
 
 def ejecutar_menu():
-    script = 'menuincio.py'
+    script = 'menuinicio.py'
     subprocess.Popen(['python3', script])
