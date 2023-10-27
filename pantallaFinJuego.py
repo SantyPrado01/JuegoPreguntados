@@ -9,16 +9,14 @@ def findeljuego(nombre, tiempo, preguntas):
 
     def gracias_jugar():
 
-        ventana_gracias_jugar.destroy()
-
         redSocial = red_social_entry.get()
         numero = numero_telefono_entry.get()
         puntaje = preguntas * 100
         cursor.execute('INSERT INTO jugadores (nombre, redSocial, telefono, puntaje, tiempo) VALUES (?,?,?,?,?)',
                         (nombre, redSocial, numero, puntaje, tiempo))
         base_datos.commit()
-
         ejecutar_menu()
+        ventana_gracias_jugar.destroy()
         
     ventana_gracias_jugar = Tk()
     ventana_gracias_jugar.title('Gracias por jugar')
