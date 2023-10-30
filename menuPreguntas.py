@@ -89,6 +89,21 @@ def guardar_cambios():
 
     messagebox.showinfo('Completado','La Pregunta ha sido modificada con éxito.')
 
+def eliminar_pregunta():
+
+        base_datos = sqlite3.connect('jugadores.bd')
+
+        cursor = base_datos.cursor()
+
+        cursor.execute("DELETE FROM preguntas WHERE id_pregunta=?", (datos[0],))
+
+        base_datos.commit()
+
+        base_datos.close()
+
+        messagebox.showinfo('Completado','La pregunta ha sido eliminada con éxito.')
+
+
 frame_formulario_preguntas = Frame(ventana_menu_preguntas)
 frame_formulario_preguntas.grid(row=0, column=0, rowspan=4)
 
@@ -130,5 +145,8 @@ boton_agregar_pregunta.grid(row=7, column=0)
 
 boton_modificar_pregunta = Button(frame_formulario_preguntas, text='Modificar Pregunta', command=guardar_cambios)
 boton_modificar_pregunta.grid(row=7, column=1)
+
+boton_eliminar_pregunta = Button(frame_formulario_preguntas, text='Eliminar Pregunta', command=eliminar_pregunta)
+boton_eliminar_pregunta.grid(row=7, column=2)
 
 ventana_menu_preguntas.mainloop()
